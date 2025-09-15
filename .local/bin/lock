@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Save current mute state
+muted_state=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q MUTED && echo yes || echo no)
+
+# Pause all media players
+playerctl --all-players pause
+mpc pause > /dev/null
+
+# Mute if not already
+if [ "$muted_state" = "no" ]; then
+    wpctl set-mute @DEFAULT_AUDIO_SINK@ 1
+fi
+
+hyprlock -q > /dev/null 2>&1
+
+# Restore mute state
+if [ "$muted_state" = "no" ]; then
+    wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
+fi

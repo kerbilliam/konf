@@ -1,0 +1,44 @@
+#!/bin/sh
+
+# Change the symlink located in 'bglocation' to provided file.
+# Intended to be used with KARBS/Sway WM as it also reloads the sway config
+# to maintain user output settings.
+#
+# Error Codes:
+# 1 File not found
+# 2 File is not a valid PNG/JPEG
+
+# Location of link.
+
+if [ -n "$2" ]; then
+    bglocation="${XDG_DATA_HOME:-$HOME/.local/share}/bg$1"
+    fullpath="$(realpath "$2")"
+else
+    bglocation="${XDG_DATA_HOME:-$HOME/.local/share}/bg"
+    fullpath="$(realpath "$1")"
+fi
+
+help() {
+    printf "USAGE:\n\tchbg [number] <file>\n\tchbg <file>\n\nWhen specifying a number, a link with the name 'bg<number>' will be created.\n"
+}
+
+# swaybg only supports PNG and JPG image formats
+# Check to see if provided file is either of them
+formatcheck() {
+    if ! file --mime-type -b "$1" 2>/dev/null | grep -qE 'image/(png|jpeg)'; then
+	echo 'Not a valid PNG/JPEG'
+	help
+	exit 2
+    fi
+}
+
+if [ -f "$fullpath" ]; then
+    formatcheck "$fullpath"
+    ln -sf "$fullpath" "$bglocation"
+    ~/.local/bin/setbg >/dev/null 2>&1
+    exit 0
+else
+    echo "File not found: $fullpath"
+    help
+    exit 1
+fi

@@ -1,0 +1,4 @@
+set selection-clipboard clipboard
+
+# Appearance
+set default-bg "rgba(16,20,33,0.85)"

@@ -1,0 +1,4 @@
+#!/bin/sh
+export GRIM_DEFAULT_DIR=~/Pictures/screenshots/
+grim
+notify-send -t 1000 "Screenshot Saved"

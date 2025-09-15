@@ -1,0 +1,41 @@
+{
+                "layer": "top",
+                "modules-left": ["sway/workspaces", "sway/window"],
+                "modules-center": [],
+                "modules-right": ["mpd","tray", "wireplumber", "network", "battery", "clock"],
+		"sway/workspaces": {
+		    "format": "{icon}",
+		    "format-icons": {
+			"10": ""
+		    }
+		},
+                "sway/window": {
+                     "max-length": 100
+                },
+		"mpd": {
+		    "server": "127.0.0.1",
+		    "port": "6600",
+		    "format": "{stateIcon} {title}",
+		    "state-icons": {"playing": ">", "paused": "||"},
+		    "on-click": "$HOME/.local/bin/sway-rmpc > /dev/null 2>&1",
+		    "on-click-right": "mpc -q toggle"
+		},
+		"wireplumber": {
+		    "format": "󰕾 {volume}%",
+		    "format-muted": ""
+		},
+		"tray": {
+		    "expand": "true",
+		    "spacing": 10
+		},
+		"network": {
+		    "format": "",
+		    "format-disconnected": "󱛅"
+		},
+                "battery": {
+                     "format": "BAT:{capacity}%"
+                },
+                "clock": {
+                     "format": "{:%A %b %d %Y  %I:%M %p}"
+                }
+}

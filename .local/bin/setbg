@@ -1,0 +1,5 @@
+#!/bin/sh
+
+killall -q swaybg
+
+swaybg --output "*" --color "#000000" --mode fill --image "$XDG_DATA_HOME/bg"

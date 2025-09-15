@@ -1,0 +1,34 @@
+#!/bin/sh
+
+# Verbosity and settings that you pretty much just always are going to want.
+alias \
+    cp="cp -iv" \
+    mv="mv -iv" \
+    rm="rm -vI" \
+    bc="bc -ql" \
+    mkdir="mkdir -pv" \
+    mkd="mkdir -pv" \
+    ffmpeg="ffmpeg -hide_banner" \
+    ffprobe="ffprobe -hide_banner" \
+    ffplay="ffplay -hide_banner"
+
+# Colorize commands when possible
+alias \
+    ls="ls -hN --color=auto --group-directories-first"\
+    grep="grep --color=auto"\
+    diff="diff --color=auto"\
+    ip="ip -color=auto"
+
+# Shortcuts
+alias \
+    vim="nvim"\
+    Vim="vim"\
+    ff="fastfetch"\
+    open="xdg-open"\
+    wiki="wiki-search-html"\
+    sysupdate="echo 'sudo pacman -Syu' ; sudo pacman -Syu"\
+    myip="ip -brief addr"
+
+# Neovim
+alias \
+    v="nvim"

@@ -1,0 +1,30 @@
+#!/bin/sh
+# shellcheck disable=SC2155
+
+# Profile file, runs on login. Environmental variables are set here.
+
+# Add all directories in `~/.local/bin` to $PATH
+export PATH="$PATH:$(find ~/.local/bin -type d | paste -sd ':' -)"
+
+# Uncomment if having issues with zsh and your terminal emulator
+#unsetopt PROMPT_SP 2>/dev/null
+
+# ZDOTDIR location at $HOME/.config/zsh
+export ZDOTDIR="$HOME/.config/zsh"
+
+# Default programs:
+export EDITOR="nvim"
+export TERMINAL="foot"
+export TERMINAL_PROG="foot"
+export BROWSER="librewolf"
+export SUDO_ASKPASS="/usr/local/bin/askpass"
+
+# ~/ Clean-up:
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+
+# Launch Sway WM
+if [ -z "$WAYLAND_DISPLAY" ] && [ -n "$XDG_VTNR" ] && [ "$XDG_VTNR" -eq 1 ] ; then
+    exec sway
+fi

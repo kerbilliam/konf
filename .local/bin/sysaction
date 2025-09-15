@@ -1,0 +1,10 @@
+#!/bin/sh
+
+case "$(printf "lock\nsleep\nshutdown\nreboot\nlogoff" | fuzzel --dmenu -l 5 -p 'System Action: ' 2>/dev/null)" in
+    'lock') lock ;;
+    'sleep') systemctl suspend ;;
+    'shutdown') poweroff ;;
+    'reboot') reboot ;;
+    'logoff') swaymsg exit;;
+    *) exit 1 ;;
+esac
