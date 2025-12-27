@@ -1,0 +1,8 @@
+#!/bin/sh
+
+while true; do
+    date=$(date +'(%A) %b %d, %Y %I:%M %p')
+    bat=$(cat /sys/class/power_supply/BAT0/capacity)
+    echo "$bat% | $date"
+    sleep 60;
+done

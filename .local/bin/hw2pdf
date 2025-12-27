@@ -1,32 +1,38 @@
 #!/bin/sh
 # hw2pdf: compile all images in specified dir into a pdf
 # Only works with jpg atm
-# Usage: hw2pdf [DIRECTORY] [OUTPUT.pdf]
+#
+# USAGE: 
+# hw2pdf <images_directory>
+# hw2pdf <images_directroy> <output.pdf>
 
 set -e
 set -u
 #set -x # debugging
 
 # Argument Check
-if [ "$#" -lt 2 ]; then
-    echo "Usage: $0 <images_directory> <output.pdf>"
+if [ "$#" -lt 1 ]; then
+    printf "USAGE:\n$(basename "$0") <images_directory>\n$(basename "$0") <images_directory> <output.pdf>\n" >&2
     exit 1
 fi
 
+# Check input directory
 IMG_DIR="$1"
-OUTPUT="$2"
-
 if [ ! -d "$IMG_DIR" ]; then
-    echo "Error: '$IMG_DIR' is not a valid directory."
+    echo "Error: '$IMG_DIR' is not a valid directory." >&2
     exit 1
 fi
 
-echo "Creating temporary directory..."
+# Check output arg
+OUTPUT='-'
+[ $# -eq 2 ] && OUTPUT="$2"
+
+# echo "Creating temporary directory..."
 TEMP_DIR=$(mktemp -d)
-echo "$TEMP_DIR"
+# echo "$TEMP_DIR"
 trap 'rm -r "$TEMP_DIR"' EXIT
 
-echo "Compressing images to temp dir..."
+# echo "Compressing images to temp dir..."
 for img in "$IMG_DIR"/*.jpg; do
     FILENAME=$(basename "$img")
     if [ -f "$img" ]; then
@@ -35,7 +41,7 @@ for img in "$IMG_DIR"/*.jpg; do
     fi
 done
 
-echo "Compiling images to pdf..."
+# echo "Compiling images to pdf..."
 find "$TEMP_DIR" -maxdepth 1 -type f -print0 | sort -z | xargs -0 img2pdf --output "$OUTPUT"
-echo "Done. PDF saved to: $OUTPUT"
-echo "Deleting $TEMP_DIR"
+# echo "Done. PDF saved to: $OUTPUT"
+# echo "Deleting $TEMP_DIR"

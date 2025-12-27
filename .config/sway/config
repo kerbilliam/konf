@@ -1,4 +1,4 @@
-# Kerb's Sway config
+# Will's Sway config
 # Read `man 5 sway` for a complete reference.
 
 ### Variables
@@ -18,8 +18,14 @@ set $screenshot ~/.local/bin/take-screenshot
 
 ### Output configuration
 # Read 'man 5 sway-output'
-output * {
+output eDP-1 {
     scale 1
+    position 0 0
+}
+
+output DP-4 {
+    scale 1
+    position 1920 0
 }
 
 # Set wallpapers.
@@ -45,7 +51,7 @@ exec ~/.local/bin/setbg >/dev/null 2>&1
 	pointer_accel -0.3
     }
 
-    seat * hide_cursor 3000
+    #seat * hide_cursor 3000
 
 #
 # Key bindings
@@ -76,11 +82,20 @@ exec ~/.local/bin/setbg >/dev/null 2>&1
     # Launch web browser
     bindsym $mod+W exec librewolf
 
+    # Launch file browser
+    bindsym $mod+F exec foot -T "list files" lf
+
     # Launch music player
     bindsym $mod+M exec $music-player
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+$altmod+Shift+Q exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+
+    # Set Gaps
+    bindsym $mod+g exec swaymsg gaps inner current set 5 && swaymsg gaps outer current set 6
+    # Remove gaps
+    bindsym $mod+n exec swaymsg gaps inner current set 0 && swaymsg gaps outer current set 0
+
 
 #
 # MPD Control
@@ -137,8 +152,6 @@ exec ~/.local/bin/setbg >/dev/null 2>&1
     bindsym $mod+$altmod+8 move container to workspace number 8
     bindsym $mod+$altmod+9 move container to workspace number 9
     bindsym $mod+$altmod+0 move container to workspace number 10
-    # Note: workspaces can have any name you want, not just numbers.
-    # We just use 1-10 as the default.
 
 #
 # Layout stuff:
@@ -146,10 +159,6 @@ exec ~/.local/bin/setbg >/dev/null 2>&1
 
     # Removes title bar but keeps borders for all new windows in split layout
     for_window [app_id=".*"] border pixel 2
-
-    # Gaps
-    gaps outer 6
-    gaps inner 5
 
     # You can "split" the current object of your focus with
     # $mod+b or $mod+v, for horizontal and vertical splits
@@ -193,6 +202,7 @@ exec ~/.local/bin/setbg >/dev/null 2>&1
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
     #bindsym $mod+minus scratchpad show
+
 #
 # Resizing containers:
 #
@@ -233,8 +243,9 @@ bindsym $mod+r mode "resize"
     # Special keys to adjust brightness via brightnessctl
     bindsym --locked XF86MonBrightnessDown exec brightnessctl -q --min-value=4800 set 5%-
     bindsym --locked XF86MonBrightnessUp exec brightnessctl -q set 5%+
-    # Special key to take a screenshot with grim
-    bindsym Print exec $screenshot
+    # Special key to take a screenshot with shotman
+    bindsym Print exec $screenshot output
+    bindsym $mod+Shift+S exec $screenshot region
 
 # Set font for title bars
 font pango:JetBrainsMono Nerd Font 12

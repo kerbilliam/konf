@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Was the avahi-daemon.service already running.
+avahiHold=
+systemctl --quiet is-active avahi-daemon.service && avahiHold=yes
+
+[ -z "$avahiHold" ] && sudo -A systemctl start avahi-daemon.service
+
+lpstat -e || echo "No printers found!"
+
+[ -z "$avahiHold" ] && sudo -A systemctl stop avahi-daemon.service

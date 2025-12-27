@@ -1,0 +1,53 @@
+#!/bin/sh
+set -e
+# set -x
+
+which ffmpeg || (echo 'please install ffmpeg' ; exit 1)
+which corr || (echo 'please install corrscope' ; exit 1)
+
+errout()
+{
+	echo "Usage: $0 <stereo-audio-file> [output]" >&2
+	exit 1
+}
+
+INPUT="$1"
+[ -n "$INPUT" ] || errout
+[ -e "$INPUT" ] || { echo "Cannot find file $INPUT" >&2; errout; }
+
+OUTPUT=${2:-out.mp4}
+
+# filename without path or extension
+FNAME=${INPUT##*/}
+FNAME=${FNAME%.*}
+
+# detect mime type
+FTYPE=$(xdg-mime query filetype "$INPUT")
+
+# must be audio/*
+case $FTYPE in
+	audio/*) ;;
+	*) echo "$INPUT is not an audio file" >&2; errout ;;
+esac
+
+TEMPDIR=$(mktemp -d)
+trap 'rm -rf "$TEMPDIR" "$FNAME.yaml"' EXIT
+
+LEFT=$TEMPDIR/left.wav
+RIGHT=$TEMPDIR/right.wav
+MASTER=$INPUT
+
+# split stereo
+ffmpeg -i "$INPUT" \
+	-filter_complex 'channelsplit=channel_layout=stereo[L][R]' \
+	-map '[L]' "$LEFT" -map '[R]' "$RIGHT"
+
+#convert to wav if needed
+if [ "$FTYPE" != "audio/x-wav" ]; then
+	MASTER=$TEMPDIR/$FNAME.wav
+	ffmpeg -i "$INPUT" "$MASTER"
+fi
+
+# compile
+corr "$LEFT" "$RIGHT" --audio "$MASTER" -w
+corr "$FNAME.yaml" -r "$OUTPUT"

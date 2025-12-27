@@ -5,11 +5,14 @@ alias \
     cp="cp -iv" \
     mv="mv -iv" \
     rm="rm -vI" \
+    rename="rename -v" \
     bc="bc -ql" \
     mkdir="mkdir -pv" \
     mkd="mkdir -pv" \
-    ffmpeg="ffmpeg -hide_banner" \
-    ffprobe="ffprobe -hide_banner" \
+    du="du -h"\
+    uptimep="uptime -p"\
+    ffmpeg="ffmpeg -hide_banner"\
+    ffprobe="ffprobe -hide_banner"\
     ffplay="ffplay -hide_banner"
 
 # Colorize commands when possible
@@ -25,10 +28,17 @@ alias \
     Vim="vim"\
     ff="fastfetch"\
     open="xdg-open"\
+    op="xdg-open"\
     wiki="wiki-search-html"\
     sysupdate="echo 'sudo pacman -Syu' ; sudo pacman -Syu"\
-    myip="ip -brief addr"
+    myip="ip -brief addr"\
+    get-thumbnail="yt-dlp --skip-download --write-thumbnail"\
+    ytdl-album='yt-dlp -x --embed-metadata --output "%(playlist_index)s %(title)s.%(ext)s"'\
+    pmount="aft-mtp-mount"\
+    qrencode='qrencode -t SVG --svg-path -o -'
 
 # Neovim
 alias \
-    v="nvim"
+    v="nvim"\
+    vl='NVIM_APPNAME=nvim-lazyvim nvim' \
+    vk='NVIM_APPNAME=nvim-kstart nvim'

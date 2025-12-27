@@ -1,0 +1,26 @@
+song_table_format: [
+    (
+	prop: AlbumArtist,
+	width: "20%",
+	alignment: Left,
+	label: Some("Group"),
+    ),
+    (
+	prop: Title,
+	width: "40%",
+	alignment: Left,
+	label: Some("Title"),
+    ),
+    (
+	prop: Album,
+	width: "30%",
+	alignment: Left,
+	label: Some("Album"),
+    ),
+    (
+	prop: Duration,
+	width: "10%",
+	alignment: Right,
+	label: Some("Duration"),
+    ),
+],
