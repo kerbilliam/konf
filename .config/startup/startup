@@ -1,0 +1,17 @@
+#!/bin/sh
+# My Startup Programs
+
+### Important System Utilities
+/usr/lib/polkit-kde-authentication-agent-1 &
+
+### Desktop Environment
+waybar > /dev/null 2>&1 &
+mako &
+mpd &
+fcitx5 > /dev/null 2>&1 &
+gammastep &
+keepassxc --minimized &
+wl-clip-persist --clipboard regular &
+
+### Personal Apps
+dropbox > /dev/null 2>&1 &
