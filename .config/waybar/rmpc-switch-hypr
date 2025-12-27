@@ -1,0 +1,5 @@
+#!/bin/sh
+hyprctl dispatch workspace 10 >/dev/null 2>&1
+hyprctl -j clients |
+jq -e 'map(select(.workspace.id == 10 and .title == "rmpc - Music Player")) | any' >/dev/null 2>&1 ||
+hyprctl dispatch exec "foot -T 'rmpc - Music Player' -e rmpc" >/dev/null 2>&1
